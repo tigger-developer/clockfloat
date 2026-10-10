@@ -1,0 +1,35 @@
+#+TITLE: Clockfloat legacy acceptance criteria
+#+DATE: 2026-10-11
+#+OPTIONS: toc:3 num:nil
+#+STARTUP: overview
+
+* Ledger authority
+
+Until v3 project initialization, this file is the sole authoritative record of
+requirements established under the legacy ticket-led process, including current
+and superseded requirements, provenance, and test traceability. Initialization
+folds this complete hierarchy into =docs/work.org=, which then becomes the sole
+requirement authority. Requirements established or changed through SDLC v3 are
+governed by signed-off =specs/*/spec.org= artefacts.
+
+The migration index and archived tickets retain disposition, provenance, and
+rationale only. Ticket bodies and comments are not current requirement or AC
+authorities.
+
+* Status vocabulary
+
+- *VALID:* The legacy requirement remains applicable. Test outcomes are recorded
+  separately; this label does not assert a test pass or mean blocked.
+- *PENDING:* The requirement or some required evidence remains unverified.
+- *FAILING:* Current evidence shows the requirement does not hold.
+- *SUPERSEDED:* A named later requirement replaces or retires it.
+- *ASSUMED PASS:* Migration inferred delivery under a named heuristic; this is
+  not a contemporaneous test result.
+
+* Acceptance criteria
+
+- No pre-existing legacy entries.
+
+* Migration notes and footnotes
+
+No pre-existing ledger, glossary or footnotes were present.
