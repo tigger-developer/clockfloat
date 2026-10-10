@@ -5,8 +5,8 @@ import SwiftUI
 
 struct SettingsView: View {
     @AppStorage(ClockConfiguration.Keys.fontName) private var fontName = "White Rabbit"
-    @AppStorage(ClockConfiguration.Keys.timeFontSize) private var timeFontSize = 14.0
-    @AppStorage(ClockConfiguration.Keys.dateFontSize) private var dateFontSize = 10.0
+    @AppStorage(ClockConfiguration.Keys.timeFontSize) private var timeFontSize = 24.0
+    @AppStorage(ClockConfiguration.Keys.dateFontSize) private var dateFontSize = 15.0
     @AppStorage(ClockConfiguration.Keys.timeFormat) private var timeFormat = "HH:mm"
     @AppStorage(ClockConfiguration.Keys.dateFormat) private var dateFormat = "E d"
     @AppStorage(ClockConfiguration.Keys.lateEnabled) private var lateEnabled = true

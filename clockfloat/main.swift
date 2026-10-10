@@ -14,3 +14,4 @@ app.delegate = clock
 app.setActivationPolicy(.accessory)
 
 app.run()
+
