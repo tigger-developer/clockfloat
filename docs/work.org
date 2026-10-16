@@ -1,9 +1,108 @@
-#+TITLE: Clockfloat legacy acceptance criteria
-#+DATE: 2026-10-16
-#+OPTIONS: toc:3 num:nil
+#+TITLE: Project Work Ledger
 #+STARTUP: overview
+#+TODO: TODO ACTIVE BLOCKED REVIEW | DONE ABANDONED
+#+TYP_TODO: PENDING FAILING SUPERSEDED | VALID ASSUMED_PASS
+#+TAGS: feature defect maintenance migration legacy
+#+OPTIONS: toc:2 num:nil
 
-* Ledger authority
+This is the project's canonical work and requirements index. Each fact has one
+authoritative representation:
+
+- *Current lifecycle state* :: The TODO keyword on the work-item headline.
+- *Classification* :: One or more tags on that headline.
+- *Stable metadata* :: The work item's property drawer.
+- *Current definition* :: The linked =spec.org= file.
+- *Evidence* :: The linked =audits.yaml= and =validation.org= files.
+- *History* :: Git history and explicitly linked archived sources.
+
+Do not repeat lifecycle state in a property, section, specification, or evidence
+file. Work items remain under one heading when their state changes. Use one
+monotonically increasing project-wide work number and never reuse an identifier,
+including after abandonment, deletion, retirement, or archival.
+
+* Ledger vocabulary
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
+
+The file directives declare the permitted TODO states and standard tags. This
+section defines their meanings.
+
+** Lifecycle states
+
+- =TODO= :: Defined but not started.
+- =ACTIVE= :: Delivery is underway.
+- =BLOCKED= :: Delivery cannot continue because of a named external dependency.
+- =REVIEW= :: Human review, validation, or disposition is required.
+- =DONE= :: Delivered, verified, and closed.
+- =ABANDONED= :: Deliberately not delivered. Its identifiers remain reserved.
+
+** Legacy requirement states
+
+- =PENDING= :: The requirement or some required evidence remains unverified.
+- =FAILING= :: Current evidence shows that the requirement does not hold.
+- =SUPERSEDED= :: A named later requirement replaces or retires it.
+- =VALID= :: The legacy requirement remains applicable. Test outcomes are
+  recorded separately; this label does not assert a test pass or mean blocked.
+- =ASSUMED_PASS= :: Migration inferred delivery under a recorded heuristic; it
+  is not a contemporaneous test result.
+
+** Standard tags
+
+- =feature= :: New or changed product behaviour.
+- =defect= :: Incorrect existing behaviour.
+- =maintenance= :: Internal upkeep without intended product-behaviour change.
+- =migration= :: Historical or framework migration work.
+- =legacy= :: Material governed by an earlier delivery process. Apply it to the
+  parent headline so the whole subtree inherits the classification.
+
+Tags are non-exclusive classifications. Add a project-specific tag only when it
+provides a durable cross-cutting category that the standard tags cannot express.
+
+** Work-item structure
+
+#+begin_example
+** TODO WNNN - Concise descriptor :feature:
+:PROPERTIES:
+:CUSTOM_ID: w-nnn
+:PRIORITY: P1
+:SOURCE: operator
+:CREATED: YYYY-MM-DD
+:END:
+
+- *Specification:* [[file:../specs/WNNN-concise-descriptor/spec.org][WNNN - Concise descriptor]]
+#+end_example
+
+Use =OWNER= and =BRANCH= properties only when concurrent work needs explicit
+coordination. Use =MIGRATION_DISPOSITION= only to preserve an immutable migration
+classification; it is provenance, not current state.
+
+* Work items
+
+** REVIEW W003 - SwiftUI settings, lean tests, remove font size migration :legacy:migration:
+:PROPERTIES:
+:CUSTOM_ID: w-003
+:PRIORITY: unassigned
+:SOURCE: [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]]
+:CREATED: unknown
+:END:
+**** Snapshot state
+Open.
+**** Evidence
+The archive records =make test= as passing and names the business-logic test groups. The migration run records ten passing methods and one failing notification method, while the operator has directed that the suite is unreliable and authorized continuing. Three manual checks are listed for settings presentation, live settings application, and menu-bar overlay; the archive contains no outcomes for those checks. The timeline records no linked code commit.
+**** Disposition
+The configuration behaviours covered by AC3.1 through AC3.5 have recorded pass evidence. Completion of the user-facing SwiftUI settings panel and menu-bar overlay remains unresolved because the manual checks have no recorded outcomes. The archived aggregate pass claim and the later notification failure also conflict. Human review is required to resolve the whole-ticket disposition; this does not defer the authorized closure batch.
+**** Relevant legacy criteria
+- The manual validation steps and replacement UI scope are preserved in the archived issue body.
+
+* Legacy Acceptance Criteria (SDLC v1) :legacy:
+:PROPERTIES:
+:CUSTOM_ID: legacy-acceptance-criteria
+:VISIBILITY: folded
+:SOURCE_DATE: 2026-10-16
+:END:
+
+** Legacy ledger authority at migration
 
 Until v3 project initialization, this file is the sole authoritative record of
 requirements established under the legacy ticket-led process, including current
@@ -16,7 +115,8 @@ The migration index and archived tickets retain disposition, provenance, and
 rationale only. Ticket bodies and comments are not current requirement or AC
 authorities.
 
-* Status vocabulary
+
+** Legacy status vocabulary at migration
 
 - *VALID:* The legacy requirement remains applicable. Test outcomes are recorded
   separately; this label does not assert a test pass or mean blocked.
@@ -26,11 +126,10 @@ authorities.
 - *ASSUMED PASS:* Migration inferred delivery under a named heuristic; this is
   not a contemporaneous test result.
 
-* Acceptance criteria
 
 ** Clock configuration behaviour
 
-*** AC3.1 - Persist and restore clock configuration
+*** VALID AC3.1 - Persist and restore clock configuration
 
 **** Requirement
 
@@ -42,10 +141,6 @@ restores the saved values or the applicable defaults.
 - *Introduced by:* [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]]
 - *Additional provenance:* [[file:archive/migrated-tickets/1.md][#1 - Add settings window with full configuration UI]] defines the settings and their user-facing purpose.
 - *Shipped or migrated:* Migrated 2026-10-16.
-
-**** Status
-
-VALID
 
 **** Tests
 
@@ -61,7 +156,7 @@ VALID
 - *Status:* PASS
 - *Evidence:* Passed in the recorded =make test= execution on 2026-10-11. Ticket #3 also records that its lean test suite passed.
 
-*** AC3.2 - Calculate the configured late offset
+*** VALID AC3.2 - Calculate the configured late offset
 
 **** Requirement
 
@@ -73,10 +168,6 @@ forward offset in seconds. When disabled, the offset is zero.
 - *Introduced by:* [[file:archive/migrated-tickets/1.md][#1 - Add settings window with full configuration UI]] specifies the enable switch and minutes control.
 - *Additional provenance:* [[file:archive/migrated-tickets/2.md][#2 - Test infrastructure - Team ID mismatch and MCP test runner instability]] records the minutes-to-seconds calculation and zero disabled value.
 - *Shipped or migrated:* Migrated 2026-10-16.
-
-**** Status
-
-VALID
 
 **** Tests
 
@@ -92,7 +183,7 @@ VALID
 - *Status:* PASS
 - *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
 
-*** AC3.3 - Validate configured font names
+*** VALID AC3.3 - Validate configured font names
 
 **** Requirement
 
@@ -103,10 +194,6 @@ to the default font.
 
 - *Introduced by:* [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]] lists validation for empty, invalid, and valid font names.
 - *Shipped or migrated:* Migrated 2026-10-16.
-
-**** Status
-
-VALID
 
 **** Tests
 
@@ -128,7 +215,7 @@ VALID
 - *Status:* PASS
 - *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
 
-*** AC3.4 - Scale text alpha with clock opacity
+*** VALID AC3.4 - Scale text alpha with clock opacity
 
 **** Requirement
 
@@ -140,10 +227,6 @@ Text alpha is 0.67 times the configured clock opacity.
 - *Additional provenance:* [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]] retains opacity-derived text alpha.
 - *Shipped or migrated:* Migrated 2026-10-16.
 
-**** Status
-
-VALID
-
 **** Tests
 
 ***** test_textAlpha_isTwoThirdsOfOpacity - Derive text alpha from opacity
@@ -152,7 +235,7 @@ VALID
 - *Status:* PASS
 - *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
 
-*** AC3.5 - Assign distinct orientations to clock corners
+*** VALID AC3.5 - Assign distinct orientations to clock corners
 
 **** Requirement
 
@@ -164,10 +247,6 @@ Each supported corner and centred position has a distinct orientation value.
 - *Additional provenance:* [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]] retains corner orientation tests.
 - *Shipped or migrated:* Migrated 2026-10-16.
 
-**** Status
-
-VALID
-
 **** Tests
 
 ***** test_cornerOrientationValues_areUnique - Assign unique orientation values
@@ -176,7 +255,7 @@ VALID
 - *Status:* PASS
 - *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
 
-*** AC3.6 - Notify observers when clock configuration changes
+*** PENDING AC3.6 - Notify observers when clock configuration changes
 
 **** Requirement
 
@@ -189,10 +268,9 @@ can reload its settings.
 - *Additional provenance:* [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]] describes configuration-change notification through settings changes.
 - *Shipped or migrated:* Migrated 2026-10-16.
 
-**** Status
+**** Status qualification
 
-PENDING: The recorded test result conflicts with the archived unqualified suite-pass statement; the operator states the project tests are unreliable.
-
+The recorded test result conflicts with the archived unqualified suite-pass statement; the operator states the project tests are unreliable.
 **** Tests
 
 ***** test_save_withNotify_postsNotification - Notify observers after saving
@@ -204,7 +282,7 @@ PENDING: The recorded test result conflicts with the archived unqualified suite-
 
 ** Migration baseline
 
-*** AC4.1 - Reset undersized persisted font sizes to defaults
+*** VALID AC4.1 - Reset undersized persisted font sizes to defaults
 
 **** Requirement
 
@@ -216,10 +294,6 @@ default date and time sizes of 10 and 14 points, respectively.
 - *Introduced by:* [[file:archive/migrated-tickets/4.md][#4 - Reset tiny persisted font sizes to defaults]], the migration baseline issue.
 - *Shipped or migrated:* Migrated 2026-10-16.
 
-**** Status
-
-VALID
-
 **** Tests
 
 ***** test_load_tinyFontSize_resetsToDefault - Reset undersized font settings
@@ -228,9 +302,27 @@ VALID
 - *Status:* PASS
 - *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
 
-* Migration notes and footnotes
+** Migration notes and footnotes
 
 The single whole-suite execution on 2026-10-11 failed: ten test methods passed
 and =test_save_withNotify_postsNotification= failed. Per the operator's
 2026-10-16 instruction, this result did not stop migration. It remains recorded
 as test evidence, not as a verified diagnosis of product behaviour.
+* Migration record
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
+
+** DONE SDLC migration - v1 to v3                      :migration:
+:PROPERTIES:
+:CUSTOM_ID: sdlc-migration
+:MIGRATED: 2026-10-16
+:END:
+
+- *Pre-migration state:* sdlc_v1_state_2026-10-16
+- *Migration branch:* sdlc-v3-migration-2026-10-16
+- *Ticket archive:* [[file:archive/migrated-tickets/][Archived ticket corpus]].
+- *Historical requirements:* [[#legacy-acceptance-criteria][Legacy Acceptance Criteria (SDLC v1)]].
+- *Archived v2 work:* Not applicable.
+- *Assumptions:* None recorded by project initialization.
+- *Unresolved items:* None recorded by project initialization.
