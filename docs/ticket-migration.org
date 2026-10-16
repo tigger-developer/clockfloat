@@ -7,10 +7,10 @@
 
 ** Current phase
 
-- *Phase:* Classification and documentation reconciliation recorded; preparing the pre-closure commit.
+- *Phase:* Complete; all archived open issues received one closure attempt and the closure results are recorded.
 - *Completed tickets:* #1 - Add settings window with full configuration UI; #2 - Test infrastructure - Team ID mismatch and MCP test runner instability; #3 - SwiftUI settings, lean tests, remove font size migration; #4 - Reset tiny persisted font sizes to defaults.
 - *Next unfinished ticket:* None; all four archived issues have a recorded disposition.
-- *Next action:* Commit this migration record, attempt closure of all four snapshot-open issues once, then record the closure result.
+- *Next action:* None.
 
 ** Archive
 
@@ -71,12 +71,12 @@ command through =-only-testing:clockfloatTests=.
 
 ** Closure record
 
-- *Archive commit:* Pending this complete migration checkpoint before any issue closure.
-- *Closure date:* Not attempted.
-- *Tickets attempted:* 0.
-- *Tickets closed:* 0.
-- *Closure failures:* None; not yet attempted.
-- *Closure-record commit:* Not yet committed.
+- *Archive commit:* =2fc398d= - Reconcile legacy requirements before ticket closure.
+- *Closure date:* 2026-10-16.
+- *Tickets attempted:* 4 snapshot-open issues.
+- *Tickets closed:* 4 of 4.
+- *Closure failures:* None.
+- *Closure-record commit:* Pending this final evidence commit.
 
 * Open defects at migration
 
