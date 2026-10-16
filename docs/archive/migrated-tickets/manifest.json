@@ -1,8 +1,8 @@
 {
   "repository": "tigger-developer/clockfloat",
-  "snapshot_time": "2026-10-10T23:07:11.609Z",
-  "issue_count": 3,
-  "open_count": 3,
+  "snapshot_time": "2026-10-16T06:27:09.160Z",
+  "issue_count": 4,
+  "open_count": 4,
   "closed_count": 0,
   "pagination": {
     "complete": true,
@@ -48,12 +48,31 @@
         "pages": 1,
         "count": 0,
         "terminal_next_link": false
+      },
+      {
+        "endpoint": "repos/tigger-developer/clockfloat/issues/4",
+        "pages": 1,
+        "count": 1,
+        "terminal_next_link": false
+      },
+      {
+        "endpoint": "repos/tigger-developer/clockfloat/issues/4/comments?per_page=100",
+        "pages": 1,
+        "count": 0,
+        "terminal_next_link": false
+      },
+      {
+        "endpoint": "repos/tigger-developer/clockfloat/issues/4/timeline?per_page=100",
+        "pages": 1,
+        "count": 0,
+        "terminal_next_link": false
       }
     ]
   },
   "filenames": [
     "1.md",
     "2.md",
-    "3.md"
+    "3.md",
+    "4.md"
   ]
 }

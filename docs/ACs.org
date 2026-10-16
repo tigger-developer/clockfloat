@@ -1,5 +1,5 @@
 #+TITLE: Clockfloat legacy acceptance criteria
-#+DATE: 2026-10-11
+#+DATE: 2026-10-16
 #+OPTIONS: toc:3 num:nil
 #+STARTUP: overview
 
@@ -20,16 +20,217 @@ authorities.
 
 - *VALID:* The legacy requirement remains applicable. Test outcomes are recorded
   separately; this label does not assert a test pass or mean blocked.
-- *PENDING:* The requirement or some required evidence remains unverified.
-- *FAILING:* Current evidence shows the requirement does not hold.
+- *PENDING:* Required delivery or evidence remains unresolved.
+- *FAILING:* Current trusted evidence shows the requirement does not hold.
 - *SUPERSEDED:* A named later requirement replaces or retires it.
 - *ASSUMED PASS:* Migration inferred delivery under a named heuristic; this is
   not a contemporaneous test result.
 
 * Acceptance criteria
 
-- No pre-existing legacy entries.
+** Clock configuration behaviour
+
+*** AC3.1 - Persist and restore clock configuration
+
+**** Requirement
+
+Saving clock configuration preserves its settings, and loading configuration
+restores the saved values or the applicable defaults.
+
+**** Provenance
+
+- *Introduced by:* [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]]
+- *Additional provenance:* [[file:archive/migrated-tickets/1.md][#1 - Add settings window with full configuration UI]] defines the settings and their user-facing purpose.
+- *Shipped or migrated:* Migrated 2026-10-16.
+
+**** Status
+
+VALID
+
+**** Tests
+
+***** test_saveAndLoad_roundtrips - Persist and restore saved settings
+
+- *Type:* Automated regression test
+- *Status:* PASS
+- *Evidence:* Passed in the recorded =make test= execution on 2026-10-11. The overall suite failed on the separate notification test. The operator authorized continuing and stated that the project tests are unreliable.
+
+***** test_load_returnsDefaults - Load default clock configuration
+
+- *Type:* Automated regression test
+- *Status:* PASS
+- *Evidence:* Passed in the recorded =make test= execution on 2026-10-11. Ticket #3 also records that its lean test suite passed.
+
+*** AC3.2 - Calculate the configured late offset
+
+**** Requirement
+
+When late offset is enabled, the configured minutes determine the clock's
+forward offset in seconds. When disabled, the offset is zero.
+
+**** Provenance
+
+- *Introduced by:* [[file:archive/migrated-tickets/1.md][#1 - Add settings window with full configuration UI]] specifies the enable switch and minutes control.
+- *Additional provenance:* [[file:archive/migrated-tickets/2.md][#2 - Test infrastructure - Team ID mismatch and MCP test runner instability]] records the minutes-to-seconds calculation and zero disabled value.
+- *Shipped or migrated:* Migrated 2026-10-16.
+
+**** Status
+
+VALID
+
+**** Tests
+
+***** test_lateOffsetSeconds_enabledConvertsMinutesToSeconds - Convert enabled minutes to seconds
+
+- *Type:* Automated regression test
+- *Status:* PASS
+- *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
+
+***** test_lateOffsetSeconds_disabledReturnsZero - Return zero when late offset is disabled
+
+- *Type:* Automated regression test
+- *Status:* PASS
+- *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
+
+*** AC3.3 - Validate configured font names
+
+**** Requirement
+
+An available font name is retained. Empty or unavailable font names fall back
+to the default font.
+
+**** Provenance
+
+- *Introduced by:* [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]] lists validation for empty, invalid, and valid font names.
+- *Shipped or migrated:* Migrated 2026-10-16.
+
+**** Status
+
+VALID
+
+**** Tests
+
+***** test_validatedFontName_validFont_returnsAsIs - Retain an available font name
+
+- *Type:* Automated regression test
+- *Status:* PASS
+- *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
+
+***** test_validatedFontName_invalidFont_returnsDefault - Default an unavailable font name
+
+- *Type:* Automated regression test
+- *Status:* PASS
+- *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
+
+***** test_validatedFontName_emptyString_returnsDefault - Default an empty font name
+
+- *Type:* Automated regression test
+- *Status:* PASS
+- *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
+
+*** AC3.4 - Scale text alpha with clock opacity
+
+**** Requirement
+
+Text alpha is 0.67 times the configured clock opacity.
+
+**** Provenance
+
+- *Introduced by:* [[file:archive/migrated-tickets/1.md][#1 - Add settings window with full configuration UI]] specifies a shared opacity control and the 0.67 text ratio.
+- *Additional provenance:* [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]] retains opacity-derived text alpha.
+- *Shipped or migrated:* Migrated 2026-10-16.
+
+**** Status
+
+VALID
+
+**** Tests
+
+***** test_textAlpha_isTwoThirdsOfOpacity - Derive text alpha from opacity
+
+- *Type:* Automated regression test
+- *Status:* PASS
+- *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
+
+*** AC3.5 - Assign distinct orientations to clock corners
+
+**** Requirement
+
+Each supported corner and centred position has a distinct orientation value.
+
+**** Provenance
+
+- *Introduced by:* [[file:archive/migrated-tickets/1.md][#1 - Add settings window with full configuration UI]] specifies four corners plus top and bottom centre positions.
+- *Additional provenance:* [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]] retains corner orientation tests.
+- *Shipped or migrated:* Migrated 2026-10-16.
+
+**** Status
+
+VALID
+
+**** Tests
+
+***** test_cornerOrientationValues_areUnique - Assign unique orientation values
+
+- *Type:* Automated regression test
+- *Status:* PASS
+- *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
+
+*** AC3.6 - Notify observers when clock configuration changes
+
+**** Requirement
+
+Saving a changed clock configuration notifies observers so the displayed clock
+can reload its settings.
+
+**** Provenance
+
+- *Introduced by:* [[file:archive/migrated-tickets/1.md][#1 - Add settings window with full configuration UI]] specifies notification-based reload.
+- *Additional provenance:* [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]] describes configuration-change notification through settings changes.
+- *Shipped or migrated:* Migrated 2026-10-16.
+
+**** Status
+
+PENDING: The recorded test result conflicts with the archived unqualified suite-pass statement; the operator states the project tests are unreliable.
+
+**** Tests
+
+***** test_save_withNotify_postsNotification - Notify observers after saving
+
+- *Type:* Automated regression test
+- *Status:* FAIL
+- *Evidence:* Failed in the only migration suite execution on 2026-10-11. Ticket #3 separately states that all lean tests passed, without recording this method's result. The operator authorized bypassing the migration stop rule and states the suite is unreliable; the failure remains recorded and its cause was not diagnosed.
+
+
+** Migration baseline
+
+*** AC4.1 - Reset undersized persisted font sizes to defaults
+
+**** Requirement
+
+Loading persisted date and time font sizes of 0.01 and 0.014 points restores the
+default date and time sizes of 10 and 14 points, respectively.
+
+**** Provenance
+
+- *Introduced by:* [[file:archive/migrated-tickets/4.md][#4 - Reset tiny persisted font sizes to defaults]], the migration baseline issue.
+- *Shipped or migrated:* Migrated 2026-10-16.
+
+**** Status
+
+VALID
+
+**** Tests
+
+***** test_load_tinyFontSize_resetsToDefault - Reset undersized font settings
+
+- *Type:* Automated regression test
+- *Status:* PASS
+- *Evidence:* Passed in the recorded =make test= execution on 2026-10-11.
 
 * Migration notes and footnotes
 
-No pre-existing ledger, glossary or footnotes were present.
+The single whole-suite execution on 2026-10-11 failed: ten test methods passed
+and =test_save_withNotify_postsNotification= failed. Per the operator's
+2026-10-16 instruction, this result did not stop migration. It remains recorded
+as test evidence, not as a verified diagnosis of product behaviour.

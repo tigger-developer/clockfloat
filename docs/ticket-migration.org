@@ -1,5 +1,5 @@
 #+TITLE: Clockfloat legacy ticket migration
-#+DATE: 2026-10-11
+#+DATE: 2026-10-16
 #+OPTIONS: toc:2
 #+STARTUP: overview
 
@@ -7,95 +7,107 @@
 
 ** Current phase
 
-- *Phase:* Stopped at the failed single whole-suite run.
-- *Completed tickets:* None classified.
-- *Next unfinished ticket:* First archived ticket, after the live-RT map.
-- *Next action:* Migration cannot continue without current passing suite evidence in a later invocation. No diagnosis or rerun was performed.
+- *Phase:* Classification and documentation reconciliation recorded; preparing the pre-closure commit.
+- *Completed tickets:* #1 - Add settings window with full configuration UI; #2 - Test infrastructure - Team ID mismatch and MCP test runner instability; #3 - SwiftUI settings, lean tests, remove font size migration; #4 - Reset tiny persisted font sizes to defaults.
+- *Next unfinished ticket:* None; all four archived issues have a recorded disposition.
+- *Next action:* Commit this migration record, attempt closure of all four snapshot-open issues once, then record the closure result.
 
 ** Archive
 
 - *Repository:* tigger-developer/clockfloat
-- *Snapshot:* 2026-10-10T23:07:11.609Z
-- *Manifest:* [[file:archive/migrated-tickets/manifest.json][Verified issue manifest]]
-- *Coverage:* 3 issues; 3 open, 0 closed; pull requests excluded.
-- *Verification:* Issue, comment and timeline pagination exhausted; original bodies and comments reconciled against preserved JSON metadata. No comments; 1 timeline event.
+- *Original snapshot:* 2026-10-10T23:07:11.609Z
+- *Baseline snapshot:* 2026-10-16, issue #4.
+- *Manifest:* [[file:archive/migrated-tickets/manifest.json][Issue manifest]]
+- *Coverage:* 4 issues; 4 open, 0 closed in the combined archive; pull requests excluded.
+- *Verification:* Original issue, comment and timeline pagination completed. Baseline issue #4 was created once, archived with its issue record, comments, and timeline, then added to the manifest.
 
 ** Suite evidence
 
-- *Command:* =make test= with temporary derived data and caches.
-- *Result:* FAIL: make exit 2; xcodebuild exit 65; 10 tests passed and 1 failed.
-- *Evidence source:* Single execution on 2026-10-11, against the current working tree including pre-existing Swift edits. Log and xcresult paths recorded below.
-
-** Failed suite details
-
-- *Failed method:* =ClockConfigurationTests.test_save_withNotify_postsNotification= :: Post a configuration-change notification when requested.
-- *Outcome:* Xcode reported the notification test failed; no cause was investigated.
-- *Invocation:* =make test=, with =DERIVED_DATA= set to the temporary staging directory's =DerivedData= child. =CFFIXED_USER_HOME=, =CLANG_MODULE_CACHE_PATH= and =SWIFT_MODULECACHE_PATH= pointed to temporary staging children. No test selection changed.
-- *Log:* =/var/folders/wn/zk3zl2050rd7qkfgkfzn6rwr0000gp/T/clockfloat-migration.XBY1RNrYyc/suite.log= (temporary evidence).
-- *Result bundle:* =/var/folders/wn/zk3zl2050rd7qkfgkfzn6rwr0000gp/T/clockfloat-migration.XBY1RNrYyc/DerivedData/Logs/Test/Test-clockfloat-2026.10.11_00-07-45-+0100.xcresult= (temporary evidence).
-- *Other output:* Compiler weak-capture warning in =EvasiveWindow.swift=, XCTest deployment-target linker warnings, and skipped App Intents metadata warnings. No warning was diagnosed or suppressed.
-- *Stop boundary:* No individual tests or historical tests rerun; no baseline issue created; no tickets classified or closed; no implementation or tests changed; no other project documents edited.
+- *Command:* =make test=.
+- *Result:* FAIL in its sole migration execution on 2026-10-11: 10 passed, 1 failed (=test_save_withNotify_postsNotification=).
+- *Evidence source:* The operator stated on 2026-10-16 that the project tests are unreliable and explicitly authorized bypassing the suite-failure stop rule. No suite or individual test was rerun. Historical results remain as recorded.
 
 ** Live RT map
 
-- *Maintained harness:* =ClockConfigurationTests= in =clockfloatTests/clockfloatTests.swift=; all 11 methods included by =make test=.
-- *Before reconciliation:* 11 maintained tests; no AC or issue references; no legacy ledger.
-- *Traceability repairs:* None; prohibited after the failed suite. No baseline issue created.
-- *Reconciled checksum:* 11 inventoried; 0 mapped; 11 unresolved. No delivery map built because the suite failed.
-- *Excluded harness:* Three UI test methods in =clockfloatUITests= are excluded by the supported command and were not executed.
+- *Maintained harness:* 11 methods in =clockfloatTests/clockfloatTests.swift=, class =ClockConfigurationTests=; all are included by =make test=.
+- *Evidence basis:* The preserved test inventory plus the archived ticket statements. Ticket #3 - SwiftUI settings, lean tests, remove font size migration - names the test behaviour groups and states that its lean suite passed. The migration run recorded ten method passes and one failure.
+- *Traceability:* 11 RTs mapped to seven ACs; AC identifiers, descriptors, source links, and test methods appear in =docs/ACs.org=. The tiny-font reset criterion came from baseline issue #4. The notification criterion remains PENDING because its recorded failure conflicts with the unqualified ticket #3 suite-pass statement.
+- *Reconciled checksum:* 11 mapped; 0 unmapped RTs. One mapped RT has conflicting outcomes.
+- *Excluded harness:* Three UI test methods in =clockfloatUITests= are excluded by the supported =make test= command and were not executed.
 
 ** Maintained test inventory
 
 All methods below are in =clockfloatTests/clockfloatTests.swift=, class
 =ClockConfigurationTests=, and are included by the supported =make test=
-command through =-only-testing:clockfloatTests=. No method contains an AC
-or issue reference. All 11 are unresolved orphans before reconciliation.
+command through =-only-testing:clockfloatTests=.
 
-- =test_load_returnsDefaults= :: Load the default font, sizes, corner, hover behaviour, formats, late settings and opacity. AC: none. Issue: none. Whole suite: included.
-- =test_saveAndLoad_roundtrips= :: Persist and reload all configured settings. AC: none. Issue: none. Whole suite: included.
-- =test_lateOffsetSeconds_enabledConvertsMinutesToSeconds= :: Convert enabled late-offset minutes into seconds. AC: none. Issue: none. Whole suite: included.
-- =test_lateOffsetSeconds_disabledReturnsZero= :: Return zero late offset when disabled. AC: none. Issue: none. Whole suite: included.
-- =test_textAlpha_isTwoThirdsOfOpacity= :: Derive text alpha from opacity. AC: none. Issue: none. Whole suite: included.
-- =test_validatedFontName_validFont_returnsAsIs= :: Retain a valid font name. AC: none. Issue: none. Whole suite: included.
-- =test_validatedFontName_invalidFont_returnsDefault= :: Fall back for an unavailable font. AC: none. Issue: none. Whole suite: included.
-- =test_validatedFontName_emptyString_returnsDefault= :: Fall back for an empty font name. AC: none. Issue: none. Whole suite: included.
-- =test_cornerOrientationValues_areUnique= :: Assign distinct orientation values to corners. AC: none. Issue: none. Whole suite: included.
-- =test_save_withNotify_postsNotification= :: Post a configuration-change notification when requested. AC: none. Issue: none. Whole suite: included.
-- =test_load_tinyFontSize_resetsToDefault= :: Reset tiny persisted font sizes to their defaults. AC: none. Issue: none. Whole suite: included.
+- =test_load_returnsDefaults= :: Load default clock configuration. AC3.1 - Persist and restore clock configuration. No direct issue reference in test source. Whole suite: included; PASS on 2026-10-11.
+- =test_saveAndLoad_roundtrips= :: Persist and restore saved settings. AC3.1 - Persist and restore clock configuration. No direct issue reference in test source. Whole suite: included; PASS on 2026-10-11.
+- =test_lateOffsetSeconds_enabledConvertsMinutesToSeconds= :: Convert enabled late-offset minutes to seconds. AC3.2 - Calculate the configured late offset. No direct issue reference in test source. Whole suite: included; PASS on 2026-10-11.
+- =test_lateOffsetSeconds_disabledReturnsZero= :: Return zero when late offset is disabled. AC3.2 - Calculate the configured late offset. No direct issue reference in test source. Whole suite: included; PASS on 2026-10-11.
+- =test_textAlpha_isTwoThirdsOfOpacity= :: Derive text alpha from opacity. AC3.4 - Scale text alpha with clock opacity. No direct issue reference in test source. Whole suite: included; PASS on 2026-10-11.
+- =test_validatedFontName_validFont_returnsAsIs= :: Retain an available font name. AC3.3 - Validate configured font names. No direct issue reference in test source. Whole suite: included; PASS on 2026-10-11.
+- =test_validatedFontName_invalidFont_returnsDefault= :: Default an unavailable font name. AC3.3 - Validate configured font names. No direct issue reference in test source. Whole suite: included; PASS on 2026-10-11.
+- =test_validatedFontName_emptyString_returnsDefault= :: Default an empty font name. AC3.3 - Validate configured font names. No direct issue reference in test source. Whole suite: included; PASS on 2026-10-11.
+- =test_cornerOrientationValues_areUnique= :: Assign unique orientation values. AC3.5 - Assign distinct orientations to clock corners. No direct issue reference in test source. Whole suite: included; PASS on 2026-10-11.
+- =test_save_withNotify_postsNotification= :: Notify observers after saving. AC3.6 - Notify observers when clock configuration changes. No direct issue reference in test source. Whole suite: included; FAIL on 2026-10-11; archived aggregate pass statement conflicts.
+- =test_load_tinyFontSize_resetsToDefault= :: Reset undersized font settings. AC4.1 - Reset undersized persisted font sizes to defaults. No direct issue reference in test source. Whole suite: included; PASS on 2026-10-11.
 
 ** Ledger and documentation reconciliation
 
-- *Canonical ledger:* Empty ledger initialized from the canonical template; no Markdown ledger exists. Pandoc Org parsing passed.
-- *Legacy additions:* None; no semantic AC changes or ticket classification performed.
-- *Heuristic markings:* None.
-- *Documentation changes:* None; staleness reconciliation was not reached.
-- *Implementation-plan archival:* Not performed; the migration stopped before document reconciliation. No tracked source plan was present.
+- *Canonical ledger:* =docs/ACs.org= initialized from the canonical template and expanded with six recovered criteria plus one baseline criterion. All have level-three headings with descriptors; the authority section remains canonical.
+- *Legacy additions:* AC3.1 through AC3.6 - configuration persistence, late offset, font validation, alpha scaling, corner orientations, and configuration-change notification; AC4.1 - tiny persisted font size fallback.
+- *Heuristic markings:* None. Criteria use recorded method results or remain PENDING.
+- *Documentation changes:* README.org contains no stale ticket or AC authority statement. No root AGENTS.md exists, and the tracked project has no other product documentation or implementation plan requiring correction.
+- *Implementation-plan archival:* No tracked source matching =docs/implementation?plan.md= was present; none moved.
 
 ** Classification checkpoint
 
-- *Delivered:* 0 classified.
-- *Open defects:* 0 classified.
-- *Defined but undelivered:* 0 classified.
-- *Abandoned:* 0 classified.
-- *Requires human review:* 0 classified.
+- *Delivered:* 2 - #2 test infrastructure repair; #4 tiny persisted font size reset.
+- *Open defects:* 0.
+- *Defined but undelivered:* 1 - #1 settings UI.
+- *Abandoned:* 0; all four issues were open in their respective snapshots.
+- *Requires human review:* 1 - #3 SwiftUI settings and menu-bar overlay completion evidence.
 
 ** Closure record
 
-- *Archive commit:* Failure checkpoint containing this record, identified by repository Git history.
-- *Closure date:* Not yet attempted.
+- *Archive commit:* Pending this complete migration checkpoint before any issue closure.
+- *Closure date:* Not attempted.
 - *Tickets attempted:* 0.
 - *Tickets closed:* 0.
 - *Closure failures:* None; not yet attempted.
-- *Closure-record commit:* None; closure was not attempted.
+- *Closure-record commit:* Not yet committed.
 
 * Open defects at migration
 
-- Not yet classified.
+- None.
 
 * Defined but undelivered features
 
-- Not yet classified.
+- ** [[file:archive/migrated-tickets/1.md][#1 - Add settings window with full configuration UI]]
+*** Snapshot state
+Open.
+*** Evidence
+The issue defines a full AppKit settings UI and configuration controls. Its prerequisite section only confirms Shift-click access and empty window scaffolding. Ticket #2 - Test infrastructure - Team ID mismatch and MCP test runner instability - later records that the settings UI was still not built. Ticket #3 - SwiftUI settings, lean tests, remove font size migration - proposes a SwiftUI replacement and lists manual UI checks without recording their results. No commit linked to ticket #1 was recorded in its archived timeline.
+*** Disposition
+The settings-window feature scope is undelivered at the snapshot. Test-backed configuration behaviour is recorded separately under AC3.1 through AC3.6; it does not establish completion of the user-facing settings UI.
+*** Relevant legacy criteria
+- UI controls and interaction detailed in the archived issue body; the scope remains here as migration disposition, not current requirement authority.
+
+* Requires human review
+
+** [[file:archive/migrated-tickets/3.md][#3 - SwiftUI settings, lean tests, remove font size migration]]
+*** Snapshot state
+Open.
+*** Evidence
+The archive records =make test= as passing and names the business-logic test groups. The migration run records ten passing methods and one failing notification method, while the operator has directed that the suite is unreliable and authorized continuing. Three manual checks are listed for settings presentation, live settings application, and menu-bar overlay; the archive contains no outcomes for those checks. The timeline records no linked code commit.
+*** Disposition
+The configuration behaviours covered by AC3.1 through AC3.5 have recorded pass evidence. Completion of the user-facing SwiftUI settings panel and menu-bar overlay remains unresolved because the manual checks have no recorded outcomes. The archived aggregate pass claim and the later notification failure also conflict. Human review is required to resolve the whole-ticket disposition; this does not defer the authorized closure batch.
+*** Relevant legacy criteria
+- The manual validation steps and replacement UI scope are preserved in the archived issue body.
+
 
 * Delivered tickets
 
-- Not yet classified.
+- [[file:archive/migrated-tickets/2.md][#2 - Test infrastructure - Team ID mismatch and MCP test runner instability]]
+- [[file:archive/migrated-tickets/4.md][#4 - Reset tiny persisted font sizes to defaults]]
