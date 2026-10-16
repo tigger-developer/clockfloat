@@ -1,0 +1,20 @@
+authorities:
+    architecture: []
+    product:
+        - README.org
+    requirements:
+        - docs/work.org
+infrastructure:
+    role: none
+migration:
+    archive_branch: sdlc_v1_state_2026-10-16
+    branch: sdlc-v3-migration-2026-10-16
+    date: "2026-10-16"
+project:
+    kind: application
+    migration_source: v1
+    primary_branch: master
+standards:
+    technologies:
+        - SWIFT
+version: 3
