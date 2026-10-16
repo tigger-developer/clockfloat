@@ -13,11 +13,11 @@ Most people hide the dock. But losing the menubar and the clock along with it he
 #+begin_example
 make build        # Debug build
 make test         # Debug build + tests
-make clean        # Clean build artifacts and DerivedData/dist
+make clean        # Clean build artefacts and DerivedData/dist
 make release      # Release build + dist/clockfloat-<version>.zip
 #+end_example
 
-`make release` compiles the Release configuration, places the `.app` bundle under `DerivedData`, and produces a zipped artifact plus its SHA256 in `dist/`. Upload that archive to GitHub (or wherever you host your tap assets) before updating your Homebrew tap.
+`make release` compiles the Release configuration, places the `.app` bundle under `DerivedData`, and produces a zipped artefact plus its SHA256 in `dist/`. Upload that archive to GitHub (or wherever you host your tap assets) before updating your Homebrew tap.
 
 * Homebrew tap workflow
 1. Run `make release` locally and commit/tag the version.
@@ -39,3 +39,7 @@ end
 #+end_src
 
 4. `brew tap <you>/clockfloat` and `brew install --cask clockfloat` to verify.
+
+* Project documentation
+- [[file:docs/VISION.md][Product vision]]
+- [[file:docs/ARCHITECTURE.md][Application architecture]]
